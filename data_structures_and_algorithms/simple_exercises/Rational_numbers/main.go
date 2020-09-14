@@ -13,6 +13,10 @@ func main() {
 
 	fmt.Println(sumRationals(a, b))
 	fmt.Println(multiplyRationals(a, b))
+
+	c := newRationalNumber(2366, 273)
+	c.simplify()
+	fmt.Println(*c)
 }
 
 func (rn *rationalNumber) Init(numerator int, denominator int) {
@@ -37,4 +41,19 @@ func sumRationals(a *rationalNumber, b *rationalNumber) rationalNumber {
 
 func multiplyRationals(a *rationalNumber, b *rationalNumber) rationalNumber {
 	return *newRationalNumber(a.numerator*b.numerator, a.denominator*b.denominator)
+}
+
+func calculateGCD(a int, b int) int {
+	for b != 0 {
+		r := a % b
+		a = b
+		b = r
+	}
+	return a
+}
+
+func (rn *rationalNumber) simplify() {
+	gcd := calculateGCD(rn.numerator, rn.denominator)
+	rn.numerator = rn.numerator / gcd
+	rn.denominator = rn.denominator / gcd
 }
