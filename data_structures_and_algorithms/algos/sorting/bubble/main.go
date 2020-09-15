@@ -29,7 +29,6 @@ func newArr(size int) *arr {
 
 func (a *arr) bubbleSort() {
 	for i := 0; i < a.size; i++ {
-
 		for j := 0; j < (a.size - i - 1); j++ {
 			if a.contents[j] > a.contents[j+1] {
 				swap(&a.contents[j], &a.contents[j+1])
