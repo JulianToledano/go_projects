@@ -4,11 +4,13 @@ import "fmt"
 
 type linkedList struct {
 	root *node
+	size int
 }
 
 func newLinkedList() *linkedList {
 	return &linkedList{
 		root: nil,
+		size: 0,
 	}
 }
 
@@ -28,21 +30,33 @@ func (ll *linkedList) insertNodo(e element) {
 		n.prev = tail
 		ll.root.prev = n
 	}
+	ll.size++
 }
 
-func (ll *linkedList) findRecursive(v int, n *node) *node {
-	if n.value.value == v {
+func (ll *linkedList) findNode(e *element) *node {
+	return ll.findNodeRecursive(ll.root, e)
+}
+
+func (ll *linkedList) findNodeRecursive(n *node, e *element) *node {
+	if e.value == n.value.value {
 		return n
 	}
 	if n.next == nil {
 		return nil
 	}
-	return ll.findRecursive(v, n.next)
+	return ll.findNodeRecursive(n.next, e)
 }
 
-func (ll *linkedList) find(v int) element {
-	n := ll.findRecursive(v, ll.root)
-	return n.value
+func (ll *linkedList) delete(e *element) {
+	n := ll.findNode(e)
+	if n != nil {
+		n.prev.next = n.next
+		if n.next == nil {
+			ll.root.prev = n.prev
+		} else {
+			n.next.prev = n.prev
+		}
+	}
 }
 
 func (ll *linkedList) _printList(n *node) {
