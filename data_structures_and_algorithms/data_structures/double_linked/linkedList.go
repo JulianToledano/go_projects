@@ -21,7 +21,6 @@ func (ll *linkedList) getTail() *node {
 func (ll *linkedList) insertNodo(e element) {
 	n := newNode(e)
 	if ll.root == nil {
-		fmt.Println("Inserting root")
 		ll.root = n
 		ll.root.prev = n
 	} else {
@@ -50,11 +49,16 @@ func (ll *linkedList) findNodeRecursive(n *node, e *element) *node {
 func (ll *linkedList) delete(e *element) {
 	n := ll.findNode(e)
 	if n != nil {
-		n.prev.next = n.next
-		if n.next == nil {
-			ll.root.prev = n.prev
+		if n == ll.root {
+			n.next.prev = ll.getTail()
+			ll.root = n.next
 		} else {
-			n.next.prev = n.prev
+			n.prev.next = n.next
+			if n.next == nil {
+				ll.root.prev = n.prev
+			} else {
+				n.next.prev = n.prev
+			}
 		}
 	}
 }
